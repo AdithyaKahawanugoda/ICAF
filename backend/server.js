@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 //import routes
+const authenticationRoute = require("./routes/authentication-routes");
 
 const app = express();
 
@@ -30,6 +31,7 @@ mongoose
   });
 
 //use routes
+app.use("/grid/api/auth", authenticationRoute);
 
 //event loop for server
 app.listen(PORT, () => {
