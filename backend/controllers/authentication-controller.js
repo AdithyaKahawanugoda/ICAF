@@ -8,7 +8,46 @@ const AllUsersModel = require("../models/allusers-model");
 const { cloudinary } = require("../utils/cloudinary");
 
 // login controller
-exports.login = async (req, res) => {};
+exports.login = async (req, res, next) => {
+  const { email, password, role } = req.body;
+  //check user
+  let user;
+  if (role === "admin") {
+    user = await AdminModel.findOne({ email: email }).select("+password");
+  } else if (role === "editor") {
+    user = await EditorModel.findOne({ email: email }).select("+password");
+  } else if (role === "reviewer") {
+    user = await ReviewerModel.findOne({ email: email }).select("+password");
+  } else if (role === "researcher") {
+    user = await ResearcherModel.findOne({ email: email }).select("+password");
+  } else if (role === "attendee") {
+    user = await AttendeeModel.findOne({ email: email }).select("+password");
+  } else if (role === "workshop conductor") {
+    user = await WorkshopConductorModel.findOne({ email: email }).select(
+      "+password"
+    );
+  } else {
+    res.status(422).json({
+      success: false,
+      desc: "Can not find the user - Please check again",
+    });
+  }
+  //check password match
+  try {
+    const isMatch = await user.matchPasswords(password);
+
+    if (!isMatch) {
+      res.status(401).send({
+        success: false,
+        desc: "Invalid credentials - Please check again",
+      });
+    } else {
+      sendToken(user, 200, res);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
 
 // register new admin - (for development purpose only)
 exports.registerAdmin = async (req, res) => {
@@ -247,4 +286,10 @@ const addToAllUsers = async (username, email, role) => {
     role,
   });
   await createdAllUser.save();
+};
+
+//send response object to client if login success
+const sendToken = (user, statusCode, res) => {
+  const token = user.getSignedToken();
+  res.status(statusCode).json({ sucess: true, token, user });
 };

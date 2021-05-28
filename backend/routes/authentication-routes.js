@@ -21,6 +21,6 @@ router.route("/reg-editor").post(registerEditor);
 router.route("/reg-workshopconductor").post(registerWorkshopConductor);
 
 //Login-routes
-//router.route("/login").post(login);
+router.route("/login").post(login);
 
 module.exports = router;
