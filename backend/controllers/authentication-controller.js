@@ -205,16 +205,8 @@ exports.registerAttendee = async (req, res) => {
 
 // register new workshop-conductor
 exports.registerWorkshopConductor = async (req, res) => {
-  const {
-    username,
-    email,
-    password,
-    topic,
-    subject,
-    description,
-    ppEnc,
-    fileEnc,
-  } = req.body;
+  const { username, email, password, topic, description, ppEnc, fileEnc } =
+    req.body;
 
   //check for users with same email address within customer collection
   let existingEmail = await findEmailDuplicates(email, res);
@@ -224,11 +216,24 @@ exports.registerWorkshopConductor = async (req, res) => {
       const ppUploadRes = await cloudinary.uploader.upload(ppEnc, {
         upload_preset: "WorkshopConductor-profile-pictures",
       });
-      console.log(ppUploadRes);
-      const fileUploadRes = await cloudinary.uploader.upload(fileEnc, {
-        upload_preset: "Workshop-Proposals",
-      });
-      console.log(fileUploadRes);
+      console.log("PP:" + ppUploadRes);
+      const fileUploadRes = await cloudinary.uploader.upload(
+        fileEnc,
+        {
+          resource_type: "raw",
+          upload_preset: "Workshop-Proposals",
+          format: "pptx",
+        },
+
+        function (err, result) {
+          if (err) {
+            console.log(err);
+            return callback(err);
+          }
+        }
+      );
+      console.log("file:" + fileUploadRes);
+
       const workshopconductor = await WorkshopConductorModel.create({
         username,
         email,
@@ -239,11 +244,10 @@ exports.registerWorkshopConductor = async (req, res) => {
         },
         worksopData: [
           {
-            researchTopic: topic,
-            researchSubject: subject,
+            worksopTopic: topic,
             worksopDescription: description,
-            paperPublicId: fileUploadRes.public_id,
-            paperSecURL: fileUploadRes.secure_url,
+            proposalPublicId: fileUploadRes.public_id,
+            proposalSecURL: fileUploadRes.secure_url,
           },
         ],
       });
