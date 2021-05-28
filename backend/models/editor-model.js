@@ -25,31 +25,15 @@ const EditorSchema = new mongoose.Schema({
   downloadTemplate: {
     pdfPublicId: {
       type: String,
-      required: [
-        true,
-        "Error with cloudinary service! Can not find the paper URL.",
-      ],
     },
     pdfSecURL: {
       type: String,
-      required: [
-        true,
-        "Error with cloudinary service! Can not find the paper URL.",
-      ],
     },
     pptPublicId: {
       type: String,
-      required: [
-        true,
-        "Error with cloudinary service! Can not find the paper URL.",
-      ],
     },
     pptSecURL: {
       type: String,
-      required: [
-        true,
-        "Error with cloudinary service! Can not find the paper URL.",
-      ],
     },
   },
 });

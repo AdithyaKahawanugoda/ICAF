@@ -45,11 +45,6 @@ const AttendeeSchema = new mongoose.Schema({
       description: { type: String },
     },
   ],
-  purchasedPapers: [
-    {
-      paperID: { type: mongoose.Schema.Types.ObjectId },
-    },
-  ],
   purchasedTickets: [
     {
       ticketID: { type: mongoose.Schema.Types.ObjectId },

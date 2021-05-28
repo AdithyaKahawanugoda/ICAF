@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const ConferenceSchema = new mongoose.Schema({
   title: { type: String, required: true },
-  period: [{ date: { type: Date } }],
+  period: { type: String, required: true },
   startingTime: { type: String, required: true },
   about: { type: String, required: true },
   venue: { type: String, required: true },

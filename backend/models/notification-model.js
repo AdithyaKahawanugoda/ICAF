@@ -14,6 +14,7 @@ const NotificationChannelSchema = new mongoose.Schema({
     userid: { type: mongoose.Schema.Types.ObjectId },
     userRole: { type: String, required: true },
   },
+  status: { type: String, default: "unread" },
   createdAt: { type: Date, default: Date.now },
 });
 

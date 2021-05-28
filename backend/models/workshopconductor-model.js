@@ -49,7 +49,7 @@ const WorkshopConductorSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please provide valid research details"],
       },
-      worksopSubject: {
+      worksopDescription: {
         type: String,
         required: [true, "Please provide valid research details"],
       },

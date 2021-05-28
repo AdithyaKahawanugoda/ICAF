@@ -32,6 +32,13 @@ mongoose
 
 //use routes
 app.use("/grid/api/auth", authenticationRoute);
+//adminpvt
+//attendeepvt
+//editorpvt
+//guest
+//researcherpvt
+//reviewerpvt
+//wconductorpvt
 
 //event loop for server
 app.listen(PORT, () => {
