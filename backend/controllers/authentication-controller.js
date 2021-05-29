@@ -216,7 +216,7 @@ exports.registerWorkshopConductor = async (req, res) => {
       const ppUploadRes = await cloudinary.uploader.upload(ppEnc, {
         upload_preset: "WorkshopConductor-profile-pictures",
       });
-      console.log("PP:" + ppUploadRes);
+
       const fileUploadRes = await cloudinary.uploader.upload(
         fileEnc,
         {
@@ -232,7 +232,6 @@ exports.registerWorkshopConductor = async (req, res) => {
           }
         }
       );
-      console.log("file:" + fileUploadRes);
 
       const workshopconductor = await WorkshopConductorModel.create({
         username,
