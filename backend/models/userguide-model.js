@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const UserGuideSchema = new mongoose.Schema({
+  status: { type: String, default: "pending" },
   sectionTitle: { type: String, required: true },
   articleTitle: {
     type: String,

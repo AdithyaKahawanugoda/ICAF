@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 
 const ConferenceSchema = new mongoose.Schema({
+  status: { type: String, default: "pending" },
   title: { type: String, required: true },
   period: { type: String, required: true },
   startingTime: { type: String, required: true },

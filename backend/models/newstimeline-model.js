@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const NewsTimelineSchema = new mongoose.Schema({
+  status: { type: String, default: "pending" },
   title: {
     type: String,
     required: true,

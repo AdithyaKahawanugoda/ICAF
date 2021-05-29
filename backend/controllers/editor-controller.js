@@ -28,26 +28,20 @@ exports.getEditor = async (req, res) => {
 
 // update editor profile data
 exports.updateEditor = async (req, res) => {
-  let email = req.body.email;
-  let username = req.body.username;
-  if (!username) {
-    username = req.user.username;
-  }
-  if (!email) {
-    email = req.user.email;
-  }
+  const { email, username } = req.body;
   try {
     const updatedUser = await EditorModel.findByIdAndUpdate(
       req.user.id,
       {
         $set: {
-          username: username,
-          email: email,
+          username,
+          email,
         },
       },
       {
         new: true,
         upsert: false,
+        omitUndefined: true,
       }
     );
     res.status(200).send({
@@ -146,7 +140,8 @@ exports.addConference = async (req, res) => {
 
 // update specific conference data
 exports.updateConference = async (req, res) => {
-  const { confID, title, period, startingTime, about, venue } = req.body;
+  const { confID, title, period, startingTime, about, venue, status } =
+    req.body;
   try {
     const updatedConference = await ConferenceModel.findByIdAndUpdate(
       confID,
@@ -157,6 +152,7 @@ exports.updateConference = async (req, res) => {
           startingTime,
           about,
           venue,
+          status,
         },
       },
       {
@@ -178,10 +174,6 @@ exports.updateConference = async (req, res) => {
   }
 };
 
-// delete specific conference
-// exports.deleteConference = async (req, res) => {
-// };
-
 // add home notice
 exports.addHomenotice = async (req, res) => {
   const { title, description } = req.body;
@@ -201,7 +193,7 @@ exports.addHomenotice = async (req, res) => {
 
 // update home notice
 exports.updateHomenotice = async (req, res) => {
-  const { nID, title, description } = req.body;
+  const { nID, title, description, status } = req.body;
   try {
     const updatedNotice = await HomeNoticesModel.findByIdAndUpdate(
       nID,
@@ -209,6 +201,7 @@ exports.updateHomenotice = async (req, res) => {
         $set: {
           title,
           description,
+          status,
         },
       },
       {
@@ -230,9 +223,6 @@ exports.updateHomenotice = async (req, res) => {
   }
 };
 
-// delete home notice
-// exports.deleteHomenotice = async (req, res) => {};
-
 // add home news timeline data
 exports.addTimelinedata = async (req, res) => {
   const { title, description } = req.body;
@@ -252,7 +242,7 @@ exports.addTimelinedata = async (req, res) => {
 
 // update home news timeline
 exports.updateTimelinedata = async (req, res) => {
-  const { ntID, title, description } = req.body;
+  const { ntID, title, description, status } = req.body;
   try {
     const updatedNews = await NewsTimelineModel.findByIdAndUpdate(
       ntID,
@@ -260,6 +250,7 @@ exports.updateTimelinedata = async (req, res) => {
         $set: {
           title,
           description,
+          status,
         },
       },
       {
@@ -280,9 +271,6 @@ exports.updateTimelinedata = async (req, res) => {
     });
   }
 };
-
-// delete home news timeline data
-// exports.deleteTimelinedata = async (req, res) => {};
 
 // add user guide details
 exports.addUserGuide = async (req, res) => {
@@ -305,7 +293,7 @@ exports.addUserGuide = async (req, res) => {
 
 // update user guide details
 exports.updateUserGuide = async (req, res) => {
-  const { ugID, sectionTitle, articleTitle, description } = req.body;
+  const { ugID, sectionTitle, articleTitle, description, status } = req.body;
   try {
     const userGuide = await UserGuideModel.findByIdAndUpdate(
       ugID,
@@ -314,6 +302,7 @@ exports.updateUserGuide = async (req, res) => {
           sectionTitle,
           articleTitle,
           description,
+          status,
         },
       },
       {
@@ -334,9 +323,6 @@ exports.updateUserGuide = async (req, res) => {
     });
   }
 };
-
-// delete user guide details
-// exports.deleteUserGuide = async (req, res) => {};
 
 const uploadFiles = async (file, presetName, mode) => {
   try {
