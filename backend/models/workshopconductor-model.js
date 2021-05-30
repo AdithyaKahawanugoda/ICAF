@@ -39,17 +39,17 @@ const WorkshopConductorSchema = new mongoose.Schema({
       ],
     },
   },
-  worksopData: [
+  workshopData: [
     {
       status: {
         type: String,
         default: "Pending",
       },
-      worksopTopic: {
+      workshopTopic: {
         type: String,
         required: [true, "Please provide valid research details"],
       },
-      worksopDescription: {
+      workshopDescription: {
         type: String,
         required: [true, "Please provide valid research details"],
       },

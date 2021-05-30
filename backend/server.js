@@ -6,6 +6,8 @@ const cors = require("cors");
 
 //import routes
 const authenticationRoute = require("./routes/authentication-routes");
+const attendeeRoute = require("./routes/attendee-routes");
+const workshopConductorRoute = require("./routes/workshopconductor-routes");
 
 const app = express();
 
@@ -34,11 +36,13 @@ mongoose
 app.use("/grid/api/auth", authenticationRoute);
 //adminpvt
 //attendeepvt
+app.use("/grid/api/attendeepvt",attendeeRoute);
 //editorpvt
 //guest
 //researcherpvt
 //reviewerpvt
 //wconductorpvt
+app.use("/grid/api/workshopconductorpvt",workshopConductorRoute);
 
 //event loop for server
 app.listen(PORT, () => {
