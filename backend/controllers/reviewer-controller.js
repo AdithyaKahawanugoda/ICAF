@@ -41,6 +41,7 @@ exports.getResearchPapers = async (req, res) => {
   }
 };
 
+//approve research papers
 exports.approveResearchPapers = async (req, res) => {
   const { newStatus, fileID, id } = req.body;
   let subject;
@@ -117,14 +118,13 @@ exports.approveWorkshops = async (req, res) => {
     );
 
     if (newStatus === "approvedbyreviewer") {
-      addToConf = addToConference(fileID, res);
-      conf = (await addToConf).toString;
+      getConferenceId(fileID, res);
     }
     const notification = await sendNotification(data, res);
     if (result) {
       res.status(200).send({
         success: true,
-        desc: `successfully updated and ${conf}`,
+        desc: `successfully updated`,
         result,
         notification,
       });
@@ -137,27 +137,40 @@ exports.approveWorkshops = async (req, res) => {
   }
 };
 
-const addToConference = async (fileID, res) => {
-  const workshopID = fileID;
-  const conferenceID = "60b4643e2b18f90ba8289a29";
 
-  const workshop = {
-    workshopID,
+const getConferenceId = async (req, res, fileID) => {
+    try {
+      const latestConference = await ConferenceModel.findOne();
+      addToConference(latestConference._id, fileID, res)
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        desc: "Error in fetching conference id -" + error,
+      });
+    }
   };
 
-  try {
-    await ConferenceModel.findOneAndUpdate(
-      { _id: conferenceID },
-      { $push: { addedWorkshops: workshop } }
-    );
-    return "added to conference";
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      desc: "Error in adding workshop - " + error,
-    });
-  }
-};
+  const addToConference = async (confId, fileID, res) => {
+    const workshopID = fileID;
+    const conferenceID = confId;
+
+    const workshop = { 
+      workshopID,
+    };
+  
+    try {
+      await ConferenceModel.findOneAndUpdate(
+        { _id: conferenceID },
+        { $push: { addedWorkshops: workshop } }
+      );
+      return "added to conference";
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        desc: "Error in adding workshop - " + error,
+      });
+    }
+  };
 
 const sendNotification = async (data, res) => {
   try {

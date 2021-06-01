@@ -39,6 +39,6 @@ router
   .route("/deleteUserGuidContent")
   .delete(protectedAdmin, deleteUserGuidContent);
 
-router.route("/getNotification").get(gprotectedAdmin, etNotifications);
+router.route("/getNotification").get(protectedAdmin, getNotifications);
 
 module.exports = router;
