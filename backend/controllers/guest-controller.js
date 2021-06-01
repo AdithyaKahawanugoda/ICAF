@@ -51,9 +51,11 @@ exports.getTimeline = async (req, res) => {
 
 //fetch specific research paper data
 exports.getResearch = async (req, res) => {
-  const rID = req.params;
+  const rID = req.params.rID;
   try {
-    const researchpaper = await ResearcherModel.findOne({ rID });
+    const researchpaper = await ResearcherModel.findOne({
+      "researchData._id": rID,
+    });
     res.status(200).send({
       researchpaper,
     });
@@ -67,9 +69,11 @@ exports.getResearch = async (req, res) => {
 
 //fetch specific workshop data
 exports.getWorkshop = async (req, res) => {
-  const wID = req.params;
+  const wID = req.params.wID;
   try {
-    const workshop = await WorkshopConductorModel.findOne({ wID });
+    const workshop = await WorkshopConductorModel.findOne({
+      "workshopData._id": wID,
+    });
     res.status(200).send({
       workshop,
     });

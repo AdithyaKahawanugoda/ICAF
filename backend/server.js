@@ -5,9 +5,15 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 //import routes
-const authenticationRoute = require("./routes/authentication-routes");
+const editorRoutes = require("./routes/editor-routes");
+const researcherRoutes = require("./routes/researcher-routes");
+const reviewerRoutes = require("./routes/reviewer-routes");
+const guestRoutes = require("./routes/guest-routes");
+const notificationRoutes = require("./routes/notification-routes");
+const adminRoutes = require("./routes/admin-routes");
 const attendeeRoute = require("./routes/attendee-routes");
 const workshopConductorRoute = require("./routes/workshopconductor-routes");
+const authenticationRoutes = require("./routes/authentication-routes");
 
 const app = express();
 
@@ -33,14 +39,16 @@ mongoose
   });
 
 //use routes
-app.use("/grid/api/auth", authenticationRoute);
-//adminpvt
+app.use("/grid/api/auth", authenticationRoutes);
+app.use("/grid/api/editorpvt", editorRoutes);
+app.use("/grid/api/researcherpvt", researcherRoutes);
+app.use("/grid/api/reviewerpvt", reviewerRoutes);
+app.use("/grid/api/guest", guestRoutes);
+app.use("/grid/api/notifi", notificationRoutes);
+app.use("/grid/api/adminpvt", adminRoutes);
+
 //attendeepvt
 app.use("/grid/api/attendeepvt",attendeeRoute);
-//editorpvt
-//guest
-//researcherpvt
-//reviewerpvt
 //wconductorpvt
 app.use("/grid/api/workshopconductorpvt",workshopConductorRoute);
 
