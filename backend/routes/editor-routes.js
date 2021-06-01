@@ -7,26 +7,52 @@ const { protectedEditor } = require("../middlewares/route-authorization");
 const {
   getEditor,
   updateEditor,
-  //   addPdfTemplates,
-  //   addPptTemplates,
+  addPdfTemplates,
+  addPptTemplates,
   addConference,
   updateConference,
-  //   deleteConference,
-  //   addHomenotice,
-  //   updateHomenotice,
-  //   deleteHomenotice,
-  //   addTimelinedata,
-  //   updateTimelinedata,
-  //   deleteTimelinedata,
-  //   addUserGuide,
-  //   updateUserGuide,
-  //   deleteUserGuide,
+  addHomenotice,
+  updateHomenotice,
+  addTimelinedata,
+  updateTimelinedata,
+  addUserGuide,
+  updateUserGuide,
+  getNotifications,
+  addSpeaker,
+  editSpeaker,
+  requestSpeakerRemove,
+  requestGuideRemove,
+  requestNewsRemove,
+  requestNoticeRemove,
 } = require("../controllers/editor-controller");
 
-//Registration-routes
 router.route("/getProfile").get(protectedEditor, getEditor);
 router.route("/editProfile").put(protectedEditor, updateEditor);
+
+router.route("/addResearchTemplate").put(protectedEditor, addPdfTemplates);
+router.route("/addWorkshopTemplate").put(protectedEditor, addPptTemplates);
+
 router.route("/addConference").post(protectedEditor, addConference);
 router.route("/editConference").put(protectedEditor, updateConference);
+
+router.route("/addSpeaker").put(protectedEditor, addSpeaker);
+router.route("/editSpeaker").put(protectedEditor, editSpeaker);
+router
+  .route("/requestSpeakerRemove")
+  .put(protectedEditor, requestSpeakerRemove);
+
+router.route("/addNotice").post(protectedEditor, addHomenotice);
+router.route("/editNotice").put(protectedEditor, updateHomenotice);
+router.route("/requestNoticeRemove").put(protectedEditor, requestNoticeRemove);
+
+router.route("/addNews").post(protectedEditor, addTimelinedata);
+router.route("/editNews").put(protectedEditor, updateTimelinedata);
+router.route("/requestNewsRemove").put(protectedEditor, requestNewsRemove);
+
+router.route("/addGuide").post(protectedEditor, addUserGuide);
+router.route("/editGuide").put(protectedEditor, updateUserGuide);
+router.route("/requestGuideRemove").put(protectedEditor, requestGuideRemove);
+
+router.route("/getNotifications").get(protectedEditor, getNotifications);
 
 module.exports = router;
