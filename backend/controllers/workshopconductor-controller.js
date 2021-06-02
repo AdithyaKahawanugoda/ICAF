@@ -1,5 +1,6 @@
 const WorkshopConModel = require("../models/workshopconductor-model");
 const AllUsersModel = require("../models/allusers-model");
+const NotificationModel = require("../models/notification-model");
 const { cloudinary } = require("../utils/cloudinary");
 const mongoose = require("mongoose");
 
@@ -159,6 +160,11 @@ exports.addWorkshopProposal = async(req,res) =>{
 
     const { workshopTopic,workshopDescription,fileEnc} = req.body;
     const workshopConductor = req.user._id;
+    const data = {
+      fromId: req.user._id,
+      subject: "New workshop proposal added",
+      desc: "-New workshop proposal has added which needs to be reviwed by the reviewer",
+    };
 
     //file upload
     const workshopUploadedResponse = await cloudinary.uploader.upload(fileEnc, {
@@ -192,8 +198,11 @@ exports.addWorkshopProposal = async(req,res) =>{
                 upsert: false,
             }
         );
-
-        res.status(200).send({status: "Workshop Proposal added to the workshopData"});
+        const result = await sendNotification(data, res);
+        if (result) {
+          res.status(201).json({ status: "Workshop Proposal added to the workshopData",success: true, result });
+        }    
+        //res.status(200).send({status: "Workshop Proposal added to the workshopData"});
 
     }catch(error){
         res.status(500).send({ error: error.message });
@@ -255,3 +264,41 @@ exports.removeWorkshopProposal = async(req,res) =>{
     }
 };
 
+const sendNotification = async (data, res) => {
+  try {
+    const newNotification = await NotificationModel.create({
+      from: {
+        userRole: "workshop conductor",
+        userid: data.fromId,
+      },
+      to: {
+        userRole: "reviewer",
+      },
+      subject: data.subject,
+      description: data.desc,
+    });
+    return newNotification;
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      desc: "Error in sendNotification in editor controller - " + error,
+    });
+  }
+};
+
+//fetch notification
+exports.getNotifications = async (req, res) => {
+  try {
+    const notifications = await NotificationModel.find({
+      "to.userid": req.user._id,
+    });
+    res.status(500).json({
+      notifications,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      desc: "Error in getNotifications in notification controller - " + error,
+    });
+  }
+};
