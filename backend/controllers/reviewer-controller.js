@@ -88,9 +88,8 @@ exports.approveResearchPapers = async (req, res) => {
 };
 
 exports.approveWorkshops = async (req, res) => {
-  const { newStatus, fileID, id } = req.body;
-  let addToConf;
-  let conf;
+  const { newStatus, fileID } = req.body;
+
   let subject;
   let desc;
 
@@ -137,40 +136,39 @@ exports.approveWorkshops = async (req, res) => {
   }
 };
 
-
 const getConferenceId = async (req, res, fileID) => {
-    try {
-      const latestConference = await ConferenceModel.findOne();
-      addToConference(latestConference._id, fileID, res)
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        desc: "Error in fetching conference id -" + error,
-      });
-    }
+  try {
+    const latestConference = await ConferenceModel.findOne();
+    addToConference(latestConference._id, fileID, res);
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      desc: "Error in fetching conference id -" + error,
+    });
+  }
+};
+
+const addToConference = async (confId, fileID, res) => {
+  const workshopID = fileID;
+  const conferenceID = confId;
+
+  const workshop = {
+    workshopID,
   };
 
-  const addToConference = async (confId, fileID, res) => {
-    const workshopID = fileID;
-    const conferenceID = confId;
-
-    const workshop = { 
-      workshopID,
-    };
-  
-    try {
-      await ConferenceModel.findOneAndUpdate(
-        { _id: conferenceID },
-        { $push: { addedWorkshops: workshop } }
-      );
-      return "added to conference";
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        desc: "Error in adding workshop - " + error,
-      });
-    }
-  };
+  try {
+    await ConferenceModel.findOneAndUpdate(
+      { _id: conferenceID },
+      { $push: { addedWorkshops: workshop } }
+    );
+    return "added to conference";
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      desc: "Error in adding workshop - " + error,
+    });
+  }
+};
 
 const sendNotification = async (data, res) => {
   try {
