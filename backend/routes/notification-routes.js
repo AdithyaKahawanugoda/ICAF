@@ -7,7 +7,7 @@ const {
   deleteNotification,
 } = require("../controllers/notification-controller");
 
-//Registration-routes
+// use routes
 router.route("/editNotification").put(updateNotification);
 router.route("/deleteNotification").delete(deleteNotification);
 

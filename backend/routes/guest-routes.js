@@ -10,7 +10,7 @@ const {
   getWorkshop,
 } = require("../controllers/guest-controller");
 
-//Registration-routes
+// use routes
 router.route("/getConference").get(getConference);
 router.route("/getNotices").get(getNotices);
 router.route("/getTimeline").get(getTimeline);

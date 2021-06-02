@@ -6,7 +6,7 @@ const cors = require("cors");
 
 //import routes
 const editorRoutes = require("./routes/editor-routes");
-const researcherRoutes = require("./routes/researcher-routes");
+//const researcherRoutes = require("./routes/researcher-routes");
 const reviewerRoutes = require("./routes/reviewer-routes");
 const guestRoutes = require("./routes/guest-routes");
 const notificationRoutes = require("./routes/notification-routes");
@@ -41,16 +41,13 @@ mongoose
 //use routes
 app.use("/grid/api/auth", authenticationRoutes);
 app.use("/grid/api/editorpvt", editorRoutes);
-app.use("/grid/api/researcherpvt", researcherRoutes);
+//app.use("/grid/api/researcherpvt", researcherRoutes);
 app.use("/grid/api/reviewerpvt", reviewerRoutes);
 app.use("/grid/api/guest", guestRoutes);
 app.use("/grid/api/notifi", notificationRoutes);
 app.use("/grid/api/adminpvt", adminRoutes);
-
-//attendeepvt
-app.use("/grid/api/attendeepvt",attendeeRoute);
-//wconductorpvt
-app.use("/grid/api/workshopconductorpvt",workshopConductorRoute);
+app.use("/grid/api/attendeepvt", attendeeRoute);
+app.use("/grid/api/workshopconductorpvt", workshopConductorRoute);
 
 //event loop for server
 app.listen(PORT, () => {
