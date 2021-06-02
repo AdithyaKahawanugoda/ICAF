@@ -240,10 +240,10 @@ exports.registerWorkshopConductor = async (req, res) => {
           imagePublicId: ppUploadRes.public_id,
           imageSecURL: ppUploadRes.secure_url,
         },
-        worksopData: [
+        workshopData: [
           {
-            worksopTopic: topic,
-            worksopDescription: description,
+            workshopTopic: topic,
+            workshopDescription: description,
             proposalPublicId: fileUploadRes.public_id,
             proposalSecURL: fileUploadRes.secure_url,
           },
