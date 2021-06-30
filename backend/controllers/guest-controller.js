@@ -7,7 +7,11 @@ const WorkshopConductorModel = require("../models/workshopconductor-model");
 //fetch keynote speakers,venue and date/time from conference
 exports.getConference = async (req, res) => {
   try {
-    const latestConference = await ConferenceModel.findOne();
+    const latestConference = await ConferenceModel.findOne({
+      status: "approvedbyadmin",
+    })
+      .sort({ _id: -1 })
+      .limit(1);
     res.status(200).send({
       latestConference,
     });

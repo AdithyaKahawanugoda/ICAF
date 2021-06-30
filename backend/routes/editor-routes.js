@@ -27,13 +27,13 @@ const {
 } = require("../controllers/editor-controller");
 
 router.route("/getProfile").get(protectedEditor, getEditor);
-router.route("/editProfile").put(protectedEditor, updateEditor);
+router.route("/editProfile").patch(protectedEditor, updateEditor);
 
 router.route("/addResearchTemplate").put(protectedEditor, addPdfTemplates);
 router.route("/addWorkshopTemplate").put(protectedEditor, addPptTemplates);
 
 router.route("/addConference").post(protectedEditor, addConference);
-router.route("/editConference").put(protectedEditor, updateConference);
+router.route("/editConference").patch(protectedEditor, updateConference);
 
 router.route("/addSpeaker").put(protectedEditor, addSpeaker);
 router.route("/editSpeaker").put(protectedEditor, editSpeaker);

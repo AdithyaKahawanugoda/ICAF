@@ -4,6 +4,7 @@ const NewsTimelineModel = require("../models/newstimeline-model");
 const EditorModel = require("../models/editor-model");
 const UserGuideModel = require("../models/userguide-model");
 const NotificationModel = require("../models/notification-model");
+const GalleryModel = require("../models/gallery-model");
 const { cloudinary } = require("../utils/cloudinary");
 
 // fetch editor profile data
@@ -29,14 +30,21 @@ exports.getEditor = async (req, res) => {
 
 // update editor profile data
 exports.updateEditor = async (req, res) => {
-  const { email, username } = req.body;
+  let { email, username } = req.body;
+
+  if (!email) {
+    email = req.user.email;
+  }
+  if (!username) {
+    email = req.user.username;
+  }
   try {
     const updatedUser = await EditorModel.findByIdAndUpdate(
       req.user.id,
       {
         $set: {
-          username,
-          email,
+          username: username,
+          email: email,
         },
       },
       {
@@ -71,8 +79,8 @@ exports.addPdfTemplates = async (req, res) => {
       { _id: req.user.id },
       {
         $set: {
-          pdfPublicId: uploadRes.public_id,
-          pdfSecURL: uploadRes.secure_url,
+          "downloadTemplate.pdfPublicId": uploadRes.public_id,
+          "downloadTemplate.pdfSecURL": uploadRes.secure_url,
         },
       },
       { new: true, upsert: true }
@@ -99,8 +107,8 @@ exports.addPptTemplates = async (req, res) => {
       { _id: req.user.id },
       {
         $set: {
-          pptPublicId: uploadRes.public_id,
-          pptSecURL: uploadRes.secure_url,
+          "downloadTemplate.pptPublicId": uploadRes.public_id,
+          "downloadTemplate.pptSecURL": uploadRes.secure_url,
         },
       },
       { new: true, upsert: true }
@@ -149,8 +157,22 @@ exports.addConference = async (req, res) => {
 
 // update specific conference data
 exports.updateConference = async (req, res) => {
-  const { confID, title, period, startingTime, about, venue, status } =
-    req.body;
+  let { confID, title, period, startingTime, about, venue, status } = req.body;
+  if (!title) {
+    title = undefined;
+  }
+  if (!period) {
+    period = undefined;
+  }
+  if (!startingTime) {
+    startingTime = undefined;
+  }
+  if (!about) {
+    about = undefined;
+  }
+  if (!venue) {
+    venue = undefined;
+  }
   try {
     const updatedConference = await ConferenceModel.findByIdAndUpdate(
       confID,
@@ -239,8 +261,18 @@ exports.addSpeaker = async (req, res) => {
 };
 
 exports.editSpeaker = async (req, res) => {
-  const { speakerID, confID, name, associatewith, coverletter, type } =
-    req.body;
+  let { speakerID, confID, name, associatewith, coverletter, type } = req.body;
+
+  if (!name) {
+    name = undefined;
+  }
+  if (!associatewith) {
+    associatewith = undefined;
+  }
+  if (!coverletter) {
+    coverletter = undefined;
+  }
+
   const data = {
     fromId: req.user._id,
     subject: "Speaker data modified",
@@ -352,7 +384,13 @@ exports.addHomenotice = async (req, res) => {
 
 // update home notice
 exports.updateHomenotice = async (req, res) => {
-  const { nID, title, description, status } = req.body;
+  let { nID, title, description, status } = req.body;
+  if (!title) {
+    title = undefined;
+  }
+  if (!description) {
+    description = undefined;
+  }
   try {
     const updatedNotice = await HomeNoticesModel.findByIdAndUpdate(
       nID,
@@ -430,14 +468,22 @@ exports.addTimelinedata = async (req, res) => {
 
 // update home news timeline
 exports.updateTimelinedata = async (req, res) => {
-  const { ntID, title, description, status } = req.body;
+  let { ntID, title, description, status } = req.body;
+  if (!title) {
+    title = undefined;
+  }
+  if (!description) {
+    description = undefined;
+  }
   try {
     const updatedNews = await NewsTimelineModel.findByIdAndUpdate(
       ntID,
       {
-        title,
-        description,
-        status,
+        $set: {
+          title: title,
+          description: description,
+          status: status,
+        },
       },
       {
         new: true,
@@ -562,6 +608,29 @@ exports.requestGuideRemove = async (req, res) => {
   }
 };
 
+// add home gallery image
+exports.addGaleryImage = async (req, res) => {
+  const fileEnc = req.body.ppEnc;
+  try {
+    const uploadedResponse = await cloudinary.uploader.upload(fileEnc, {
+      upload_preset: "Gallery-images",
+    });
+
+    await GalleryModel.create({
+      galleryImage: {
+        imagePublicId: uploadedResponse.public_id,
+        imageSecURL: uploadedResponse.secure_url,
+      },
+    });
+    res.status(201).json({ success: true });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      desc: "Error in Editor-controller image-add function-" + err,
+    });
+  }
+};
+
 exports.getNotifications = async (req, res) => {
   try {
     const notifications = await NotificationModel.find({
@@ -586,6 +655,7 @@ const uploadFiles = async (file, presetName, mode) => {
         resource_type: "raw",
         format: "pptx",
       });
+
       return uploadResponse;
     } else {
       const uploadResponse = await cloudinary.uploader.upload(file, {
