@@ -443,7 +443,7 @@ exports.requestNoticeRemove = async (req, res) => {
 
 // add home news timeline data
 exports.addTimelinedata = async (req, res) => {
-  const { title, description } = req.body;
+  const { title, description, position } = req.body;
   const data = {
     fromId: req.user._id,
     subject: "New Timeline news added",
@@ -453,6 +453,7 @@ exports.addTimelinedata = async (req, res) => {
     const newsTimeline = await NewsTimelineModel.create({
       title,
       description,
+      position,
     });
     const result = await sendNotification(data, res);
     if (result) {
@@ -610,7 +611,7 @@ exports.requestGuideRemove = async (req, res) => {
 
 // add home gallery image
 exports.addGaleryImage = async (req, res) => {
-  const fileEnc = req.body.ppEnc;
+  const { fileEnc } = req.body;
   try {
     const uploadedResponse = await cloudinary.uploader.upload(fileEnc, {
       upload_preset: "Gallery-images",

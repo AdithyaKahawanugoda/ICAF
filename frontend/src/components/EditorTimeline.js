@@ -146,6 +146,7 @@ const EditorTimeline = () => {
       ),
     },
   ];
+
   return (
     <div>
       <h1>Timeline</h1>
@@ -212,6 +213,7 @@ const EditorTimeline = () => {
                 columns={timelineColumns}
                 dataSource={timelineData}
                 pagination={{ pageSize: 4 }}
+                rowKey="_id"
               />
             </div>
           )}
