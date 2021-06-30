@@ -1,0 +1,17 @@
+.custome-img-slider-content {
+    background-image: url("https://i.ibb.co/2hFjf7k/Design-Digital-Virtual-Event-Meeting-Content.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    height: 80vh;
+    padding-top: 30vh;
+  }
+  
+  .custome-slider-content {
+    color: white;
+    width: 30%;
+  }
+
+  .filler{
+    height: 11vh;
+  }
+  

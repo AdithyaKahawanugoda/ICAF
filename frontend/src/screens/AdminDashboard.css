@@ -1,0 +1,38 @@
+.admindashboard{
+  padding: 1vw;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.sidebar{
+  width: 15vw;
+  margin: auto;
+  display: block;
+}
+
+.rightSideBar{
+  width: 15vw;
+  margin: auto;
+  display: block;
+}
+
+.dashboarddataContainor{
+  margin-left: 4vw;
+  width: 55vw;
+  margin: auto;
+  display: block;
+  height: fit-content;
+  background-color: white;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+}
+.revenue{
+
+  width: 40vw;
+  text-indent: 5vh;
+  display: block;
+  margin: auto;
+  text-align: center;
+}
+
+.revenue h5{ 
+  text-align: right;
+}

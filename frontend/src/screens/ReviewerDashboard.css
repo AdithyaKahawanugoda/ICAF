@@ -1,0 +1,39 @@
+.reviewerDashBoard {
+  margin-top: 1vw;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.sideBar {
+  margin: auto;
+  display: block;
+  /* background-color: black; */
+}
+
+.appr {
+  width: 16vw;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+  margin: auto;
+  display: block;
+  background-color: lightgray;
+  border-radius: 1vw;
+  margin-bottom: 2vw;
+}
+
+.appr h3 {
+  text-align: center;
+}
+
+.reviewerData {
+  padding: 3vh;
+  width: 60vw;
+  height: fit-content;
+  margin-left: 5vw;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+}
+
+.reviewerDataIn {
+  margin-top: 20vw;
+  width: 55vw;
+  height: fit-content;
+  margin: auto;
+}

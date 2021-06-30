@@ -4,6 +4,27 @@ const HomenoticeModal = require("../models/homenotice-model");
 const UserGuideModel = require("../models/userguide-model");
 const TimeLineModel = require("../models/newstimeline-model");
 const NotificationModel = require("../models/notification-model");
+const WorkshopModel = require("../models/workshopconductor-model");
+const ResearchPapersModal = require("../models/researcher-model");
+const GalleryModel = require("../models/gallery-model");
+const { cloudinary } = require("../utils/cloudinary");
+
+
+
+
+exports.getAllConferences = async (req, res) => {
+  try {
+    const conferences = await ConferenceModel.find();
+    res.status(200).send({ conferences: conferences });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      desc: "Error in fetching Conference in admin controller -" + err,
+    });
+  }
+};
+
+
 
 //Fetch all users
 exports.getUsersData = async (req, res) => {
@@ -17,11 +38,35 @@ exports.getUsersData = async (req, res) => {
     });
   }
 };
+exports.getWorkshopProposals = async (req, res) => {
+  try {
+    const workshopProposals = await WorkshopModel.find();
+
+    res.status(200).send({ workshopProposals });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      desc: "Error in getWorkshopProposals in admin controller -" + err,
+    });
+  }
+};
+
+exports.getResearchPapers = async (req, res) => {
+  try {
+    const researchPapers = await ResearchPapersModal.find();
+    res.status(200).send({ researchPapers });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      desc: "Error in getResearchPapers in admin controller -" + error,
+    });
+  }
+};
 
 //fetch home content that editor added
 exports.getHomeContent = async (req, res) => {
   try {
-    const homenotices = await HomenoticeModal.find({ status: "pending" });
+    const homenotices = await HomenoticeModal.find();
     res.status(200).send({ homenotices: homenotices });
   } catch (error) {
     res.status(500).json({
@@ -34,7 +79,7 @@ exports.getHomeContent = async (req, res) => {
 //fetch user guide content that editor added
 exports.getUserGuideContent = async (req, res) => {
   try {
-    const userGuideData = await UserGuideModel.find({ status: "pending" });
+    const userGuideData = await UserGuideModel.find();
     res.status(200).send({ userGuideData: userGuideData });
   } catch (error) {
     res.status(500).json({
@@ -46,10 +91,25 @@ exports.getUserGuideContent = async (req, res) => {
 
 //fetch news time line content that editor added
 exports.getNewsTimelines = async (req, res) => {
+  let timelines = [];
   try {
-    const newsTimelineData = await TimeLineModel.find({ status: "pending" });
-    res.status(200).send({ newsTimelineData: newsTimelineData });
-  } catch (error) {
+    const newsTimelineData = await TimeLineModel.find();
+    // const sortedTimeLine = newsTimelineData.position.sort()
+    for (let i = 0; i < newsTimelineData.length; i++) {
+      timelines.push(newsTimelineData[i]);
+    }
+    let temp = 0;
+    for (let i = 0; i < timelines.length - 1; i++) {
+      if (timelines[i].position > timelines[i + 1].position) {
+        temp = timelines[i];
+
+        timelines[i] = timelines[i + 1];
+        timelines[i + 1] = temp;
+      }
+    }
+
+    res.status(200).send({ newsTimelineData: timelines});
+  } catch (err) {
     res.status(500).json({
       success: false,
       desc:
@@ -123,13 +183,13 @@ exports.manageUserGuidContent = async (req, res) => {
     if (result) {
       res.status(200).json({
         success: true,
-        desc: "UserGuideModel status updated",
+        desc: "User Guide  status updated",
       });
     }
   } catch (error) {
     res.status(500).json({
       success: false,
-      desc: "Error in UserGuideModel controller-" + error,
+      desc: "Error in User Guide controller-" + error,
     });
   }
 };
@@ -159,12 +219,37 @@ exports.manageConfContent = async (req, res) => {
   }
 };
 
+//approve or reject Gallery content
+exports.manageGalleryContent = async (req, res) => {
+  const { status, nid } = req.body;
+  try {
+    const result = await manageEditorsContent(
+      status,
+      GalleryModel,
+      nid,
+      req,
+      res
+    );
+    if (result) {
+      res.status(200).json({
+        success: true,
+        desc: "Gallery Model new status updated",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      desc: "Error in GalleryModel controller-" + error,
+    });
+  }
+};
+
 //function to approve or ignore editors content
 const manageEditorsContent = async (status, model, id, req, res) => {
   let subject;
   let desc;
 
-  if (status === "approvebyadmin") {
+  if (status === "approvedbyadmin") {
     subject = "content Approved";
     desc = `Your content # ${id} has been approved by the admin`;
   } else {
@@ -173,7 +258,7 @@ const manageEditorsContent = async (status, model, id, req, res) => {
   }
 
   const data = {
-    fromId: req.body._id,
+    fromId: req.user._id,
     subject: subject,
     desc: desc,
   };
@@ -220,9 +305,27 @@ const sendNotification = async (data, res) => {
 exports.getNotifications = async (req, res) => {
   try {
     const notifications = await NotificationModel.find({
-      "to.userRole": req.body.role,
+      "to.userRole": req.user.role,
+      
     });
+    res.status(200).json({
+      notifications,
+    });
+  } catch (error) {
     res.status(500).json({
+      success: false,
+      desc: "Error in getNotifications in notification controller - " + error,
+    });
+  }
+};
+
+exports.getSentNotifications = async (req, res) => {
+  try {
+    const notifications = await NotificationModel.find({
+    
+      "from.userRole": req.user.role,
+    });
+    res.status(200).json({
       notifications,
     });
   } catch (error) {
@@ -234,7 +337,7 @@ exports.getNotifications = async (req, res) => {
 };
 
 exports.deleteTimelines = async (req, res) => {
-  const { nid } = req.body;
+  const nid = req.params.id;
   try {
     const result = await deleteContent(TimeLineModel, nid, req, res);
     if (result) {
@@ -252,13 +355,14 @@ exports.deleteTimelines = async (req, res) => {
 };
 
 exports.deleteHomeContent = async (req, res) => {
-  const { nid } = req.body;
+  const nid = req.params.id;
+  console.log(nid);
   try {
     const result = await deleteContent(HomenoticeModal, nid, req, res);
     if (result) {
       res.status(200).json({
         success: true,
-        desc: "deleteHomeContent deleted",
+        desc: "HomeContent deleted",
       });
     }
   } catch (error) {
@@ -270,7 +374,7 @@ exports.deleteHomeContent = async (req, res) => {
 };
 
 exports.deleteUserGuidContent = async (req, res) => {
-  const { nid } = req.body;
+  const nid = req.params.id;
   try {
     const result = await deleteContent(UserGuideModel, nid, req, res);
     if (result) {
@@ -288,7 +392,7 @@ exports.deleteUserGuidContent = async (req, res) => {
 };
 
 exports.deleteConfContent = async (req, res) => {
-  const { nid } = req.body;
+  const nid = req.params.id;
   try {
     const result = await deleteContent(ConferenceModel, nid, req, res);
     if (result) {
@@ -305,15 +409,37 @@ exports.deleteConfContent = async (req, res) => {
   }
 };
 
+exports.deleteGalleryContent = async (req, res) => {
+  const nid = req.params.id;
+  try {
+    const result = await deleteContent(GalleryModel, nid, req, res);
+    if (result) {
+      res.status(200).json({
+        success: true,
+        desc: "Gallery Item deleted",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      desc: "Error in GalleryModel controller-" + error,
+    });
+  }
+};
+
 const deleteContent = async (model, id, req, res) => {
+  console.log(id);
+  const nId = id;
+  const modelName = model;
+
   const data = {
-    fromId: req.body._id,
-    subject: `content # ${id} deleted`,
-    desc: `content # ${id} deleted`,
+    fromId: req.user._id,
+    subject: `content # ${nId} deleted`,
+    desc: `content # ${nId} deleted`,
   };
 
   try {
-    const deleteStatus = await model.deleteOne({ _id: id });
+    const deleteStatus = await modelName.deleteOne({ _id: nId });
 
     const notification = await sendNotification(data, res);
     if (deleteStatus && notification) {
@@ -326,3 +452,39 @@ const deleteContent = async (model, id, req, res) => {
     });
   }
 };
+
+exports.addGaleryImage = async (req, res) => {
+  const fileEnc = req.body.ppEnc;
+  try {
+    const uploadedResponse = await cloudinary.uploader.upload(fileEnc, {
+      upload_preset: "Conference-Data",
+    });
+
+    const galleryImg = await GalleryModel.create({
+      galleryImage: {
+        imagePublicId: uploadedResponse.public_id,
+        imageSecURL: uploadedResponse.secure_url,
+      },
+    });
+    res.status(201).json({ success: true, galleryImg });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      desc: "Error in Admin controller(addGaleryImage)-" + err,
+    });
+  }
+};
+
+exports.getGalleryImages = async (req, res) => {
+  try {
+    const gallery = await GalleryModel.find();
+    res.status(200).send({ gallery });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      desc: "Error in fetching gallery in admin controller -" + err,
+    });
+  }
+};
+
+
