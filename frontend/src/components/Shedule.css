@@ -1,0 +1,16 @@
+
+.lkshedule{
+    margin: 50px;
+    margin-bottom: 100px;
+}
+
+.lkshedule_title_up > h6{
+    font-size: 20px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.lkshedule-title{
+    box-shadow: 0px 6px 18px 1px rgb(65, 65, 197);
+    padding: 20px;
+    border-radius: 10px;
+}
