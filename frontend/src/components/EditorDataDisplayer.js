@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { Row } from "react-bootstrap";
 
 import EditorContext from "../context/editor-context";
 
@@ -10,7 +11,6 @@ import EditorTemplates from "./EditorTemplates";
 import EditorTimeline from "./EditorTimeline";
 import EditorHomeNotices from "./EditorHomeNotices";
 import EditorGallery from "./EditorGallery";
-import EditorUserGuide from "./EditorUserGuide";
 
 const EditorDataDisplayer = () => {
   const ctx = useContext(EditorContext);
@@ -65,8 +65,11 @@ const EditorDataDisplayer = () => {
       {ctx.optionID === "Upload Templates" && <EditorTemplates />}
       {ctx.optionID === "Timeline" && <EditorTimeline />}
       {ctx.optionID === "Home Notices" && <EditorHomeNotices />}
-      {ctx.optionID === "Gallery" && <EditorGallery />}
-      {ctx.optionID === "User Guide" && <EditorUserGuide />}
+      {ctx.optionID === "Gallery & User Guide" && (
+        <div>
+          <EditorGallery />
+        </div>
+      )}
     </div>
   );
 };

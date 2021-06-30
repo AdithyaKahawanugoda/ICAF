@@ -7,6 +7,7 @@ const NewsTimelineSchema = new mongoose.Schema({
     required: true,
   },
   description: { type: String, required: true },
+  position: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
 });
 

@@ -11,8 +11,7 @@ const EditorDashboard = () => {
     { name: "Upload Templates", counter: 3 },
     { name: "Timeline", counter: 4 },
     { name: "Home Notices", counter: 5 },
-    { name: "Gallery", counter: 6 },
-    { name: "User Guide", counter: 7 },
+    { name: "Gallery & User Guide", counter: 6 },
   ];
 
   return (

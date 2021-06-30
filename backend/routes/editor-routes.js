@@ -24,6 +24,7 @@ const {
   requestGuideRemove,
   requestNewsRemove,
   requestNoticeRemove,
+  addGaleryImage,
 } = require("../controllers/editor-controller");
 
 router.route("/getProfile").get(protectedEditor, getEditor);
@@ -48,6 +49,8 @@ router.route("/requestNoticeRemove").put(protectedEditor, requestNoticeRemove);
 router.route("/addNews").post(protectedEditor, addTimelinedata);
 router.route("/editNews").put(protectedEditor, updateTimelinedata);
 router.route("/requestNewsRemove").put(protectedEditor, requestNewsRemove);
+
+router.route("/addGallery").post(protectedEditor, addGaleryImage);
 
 router.route("/addGuide").post(protectedEditor, addUserGuide);
 router.route("/editGuide").put(protectedEditor, updateUserGuide);
