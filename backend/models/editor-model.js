@@ -25,15 +25,19 @@ const EditorSchema = new mongoose.Schema({
   downloadTemplate: {
     pdfPublicId: {
       type: String,
+      default: "pending",
     },
     pdfSecURL: {
       type: String,
+      default: "pending",
     },
     pptPublicId: {
       type: String,
+      default: "pending",
     },
     pptSecURL: {
       type: String,
+      default: "pending",
     },
   },
 });
