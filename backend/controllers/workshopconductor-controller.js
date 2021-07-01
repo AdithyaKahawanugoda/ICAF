@@ -134,7 +134,7 @@ exports.updateProfilePicture = async (req, res) => {
 //Deleting workshop conductor's profile
 exports.deleteWorkshopConductor = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(req.user._id))
-        return res.status(404).send(`No attendee with id: ${req.user._id}`);
+        return res.status(404).send(`No workshop conductor with id: ${req.user._id}`);
 
     try {
         await WorkshopConModel.findByIdAndRemove(req.user._id);
@@ -144,7 +144,7 @@ exports.deleteWorkshopConductor = async (req, res) => {
         );
         res.status(200).send({
             success: true,
-            desc: "Attendee deleted successfully",
+            desc: "Workshop Conductor deleted successfully",
             cloudinaryRes,
         });
     } catch (error) {
@@ -302,3 +302,46 @@ exports.getNotifications = async (req, res) => {
     });
   }
 };
+
+//fetch all workshop proposals
+exports.getAllWorkshopProposals = async (req, res) => {
+  // let workshopData = [];
+  let workshopProposal;
+
+  try {
+    const workshopProposals = await WorkshopConModel.find();
+    for (let i = 0; i < workshopProposals.length; i++) {
+      // workshopData.push(workshopProposals[i].workshopData);
+      workshopProposal = workshopProposals[i].workshopData;
+      // console.log(workshopProposal);
+      // workshopData.push(proposal);
+    }
+
+    res.status(200).send({ workshopProposal });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      desc: "Error in getWorkshopProposals in workshopconductor controller -" + err,
+    });
+  }
+};
+
+// //fetch one specific workshop proposal
+// exports.getWorkshopProposal = async(req,res) =>{
+//   let proposal;
+//   const {workshopPropId} = req.body;
+//   try{
+//      const workProposal = await WorkshopConModel.find();
+//      for (let i = 0; i < workshopProposals.length; i++) {
+//         proposal = workshopProposals[i].workshopData._id;
+     
+//     }
+
+//      res.status(200).send({ workProposal });
+//   }catch(err){
+//     res.status(500).json({
+//       success: false,
+//       desc: "Error in getWorkshopProposal in workshopconductor controller -" + err,
+//     });
+//   }
+// };

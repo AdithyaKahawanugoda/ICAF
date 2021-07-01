@@ -14,6 +14,8 @@ const {
     removeWorkshopProposal,
     updateProfilePicture,
     getNotifications,
+    getAllWorkshopProposals,
+    // getWorkshopProposal
 } = require("../controllers/workshopconductor-controller");
 
 
@@ -30,6 +32,8 @@ router.route("/workshopconductor/proposal/add").put(protectedWorkshopConductor ,
 router.route("/workshopconductor/proposal/update").put(protectedWorkshopConductor,updateWorkshopProposal);
 router.route("/workshopconductor/proposal/delete").put(protectedWorkshopConductor,removeWorkshopProposal);
 router.route("/workshopconductor/proposal/notify").get(protectedWorkshopConductor,getNotifications);
+router.route("/workshopconductor/proposals").get(getAllWorkshopProposals);
+// router.route("/workshopconductor/proposal").get(getWorkshopProposal);
 
 
 module.exports = router;
