@@ -1,0 +1,56 @@
+.lkconference h1{
+    text-align: center;
+    color: black;
+}
+
+.lkconference{
+    color: black; 
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    margin-bottom:1vh ;
+}
+
+.lkConfNotAwailable{
+    text-align: center;
+    height: 20vh;
+    width: 100%;
+    background-color: black;
+    margin-bottom:1vh ;
+    color: black; 
+}
+
+.lkConfNotAwailable h1{
+    text-align: center;
+    color: darkgrey;
+}
+
+.lkimg-content {
+    height: 60vh;
+    width:100%;
+    padding-top: 0.5vh;
+  }
+  
+.lkcustome-slider {
+    color: black;
+    width: 30%;
+  }
+  
+  .lkcontainer {
+    position: relative;
+    text-align: center;
+    color: black;
+  }
+  
+  .lktext-block > h1{
+    position: relative;
+    font-family: EnV,Arial,Helvetica,sans-serif;
+    position: absolute;
+    top: 8px;
+    left: 16px;
+    color: white ;
+    font-weight: bold;
+    padding-top: 20vw;
+    padding-left: 20px;
+    font-size: 50px;
+  }
