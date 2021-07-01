@@ -1,18 +1,17 @@
 import React,{useState,useEffect} from 'react';
-import { ListGroup, Button, Col, Form } from "react-bootstrap";
+import { ListGroup, Button, Form,Card } from "react-bootstrap";
 import { Modal }  from "antd";
 import axios from "axios";
 import FileBase from "react-file-base64";
-import { put } from '../../../backend/routes/researcher-routes';
+
 const WorkshopProposal = () => {
 
-  const [proposals,setProposals] = useState([]);
-  const [emptyStorage, setEmptyStorage] = useState(true);
-
+  const [proposals,setProposals] = useState("");
+  
   const [pId,setPId] = useState("");
   const [workshopTopic,setWorkshopTopic] = useState("");
   const [workshopDescription,setWorkshopDescription] = useState("");
-  const [workshopProposal,setWorkshopProposal] = useState("");
+  const [workshopProposal,setWorkshopProposal] = useState([]);
   const [enc2Data, setEnc2Data] = useState(null);
 
   const [updatevisible, setUpdateVisible] = useState(false);
@@ -63,6 +62,7 @@ const WorkshopProposal = () => {
         )
         .then((res) =>{
           alert("Workshop Proposal added successfully");
+          window.location.reload();
         })
         .catch((err) =>{
           alert(err);
@@ -86,13 +86,14 @@ const WorkshopProposal = () => {
     };
     try{
       await axios
-         put(
+         .put(
            "http://localhost:6500/grid/api/workshopconductorpvt/workshopconductor/proposal/update",
            updateProposal,
            config
          )
          .then((res) =>{
            alert("Workshop proposal updated Successfully");
+           window.location.reload();
          })
          .catch((err) =>{
            alert(err);
@@ -104,7 +105,7 @@ const WorkshopProposal = () => {
    };
 
    useEffect(() =>{
-     setEmptyStorage(true);
+  
      const getWorkshopProposal = async () =>{
       const config = {
         headers: {
@@ -119,7 +120,8 @@ const WorkshopProposal = () => {
           .then((res) =>{
             console.log(res.data);
             setProposals(res.data.workshopConductor);
-            setEmptyStorage(false);
+            setWorkshopProposal(res.data.workshopConductor.workshopData);
+            console.log(res.data.workshopConductor.workshopData);
           })
           .catch((error)=>{
             alert("Error in Workshop proposals: "+error);
@@ -147,6 +149,7 @@ const WorkshopProposal = () => {
          )
          .then((res) =>{
            alert("Workshop Proposal deleted Successfully");
+           window.location.reload();
          })
          .catch((err) =>{
            alert(err);
@@ -160,21 +163,106 @@ const WorkshopProposal = () => {
     return (
         <div>
           <h3>WorkshopProposals</h3>  
-          <Button onClick ={()=>{
+          <Button style={{margin:"1rem"}} onClick ={()=>{
             setAddVisible(true);
           }}>Add Workshop Proposal</Button>
-          {!emptyStorage && (
+          
+          
             <div>
          <Card >
-        <ListGroup variant="flush">
-          <ListGroup.Item></ListGroup.Item>
-          <ListGroup.Item></ListGroup.Item>
-          <ListGroup.Item></ListGroup.Item>
-        </ListGroup>
-      </Card>
+         {workshopProposal.map((proposal,index) => (
+            <div key={index}>
+            <ListGroup variant="flush">
+            <ListGroup.Item><h3>Workshop Topic: {proposal.workshopTopic}</h3>
+            <p>Workshop Description: {proposal.workshopDescription}</p>
+            <p>Status: {proposal.status}</p></ListGroup.Item>
+            <ListGroup.Item>
+            {proposal.status==="pending" && (
+              <Button style={{marginRight:'2rem'}}
+              variant="outline-info"  size="sm"
+              onClick={()=>{
+                setPId(proposal._id);
+                setWorkshopTopic(proposal.workshopTopic);
+                setWorkshopDescription(proposal.workshopDescription);
+                setUpdateVisible(true);
+              }}
+              >Edit Workshop Proposal</Button>
+              
+            )}
+            {proposal.status==="pending" && (
+              <Button style={{marginRight:'2rem'}}
+              variant="outline-danger" size="sm"
+              onClick={()=>{
+                removeWorkshopProposal(proposal._id);
+              }}>
+              Delete Workshop Proposal
+              </Button>
+            )}
+            </ListGroup.Item>
             
+          </ListGroup>
             </div>
-          )}
+
+         ))}
+  
+            
+      </Card>
+            </div>
+         
+          <Modal
+          title="Update Workshop Proposal"
+          visible={updatevisible}
+          onOk={handleOk}
+          confirmLoading={confirmLoading}
+          onCancel={handleCancel}
+          >
+          <Form>
+          <Form.Group controlId="formGroupUserName">
+          <Form.Label>Workshop Topic</Form.Label>
+          <Form.Control type="text"  value={workshopTopic}
+          onChange={(e) => {
+            setWorkshopTopic(e.target.value);
+          }}/>
+        </Form.Group>
+        <Form.Group controlId="formGroupUserName">
+          <Form.Label>Workshop Description</Form.Label>
+          <Form.Control type="text"  value={workshopDescription}
+          onChange={(e) => setWorkshopDescription(e.target.value)} />
+        </Form.Group>
+          </Form>
+          </Modal>
+          <Modal
+          title="Add Product"
+          visible={addvisible}
+          onOk={handleOk2}
+          confirmLoading={confirmLoading}
+          onCancel={handleCancel}
+        >
+        <Form>
+          <Form.Group controlId="formGroupUserName">
+          <Form.Label>Workshop Topic</Form.Label>
+          <Form.Control type="text"  value={workshopTopic}
+          onChange={(e) => {
+            setWorkshopTopic(e.target.value);
+          }}/>
+        </Form.Group>
+        <Form.Group controlId="formGroupUserName">
+          <Form.Label>Workshop Description</Form.Label>
+          <Form.Control type="text"  value={workshopDescription}
+          onChange={(e) => setWorkshopDescription(e.target.value)} />
+        </Form.Group>
+        <Form.Group controlId="formGroupPhone">
+        <Form.Label>Workshop Proposal</Form.Label>
+        <h6>**Please do not exceed the amount of file size 25MB </h6>
+        <FileBase type="file"  
+        multiple={false}
+        onDone={({ base64 }) => {
+          setEnc2Data(base64); 
+        }}/>
+        </Form.Group>
+          </Form>
+        
+        </Modal>
         </div>
     )
 }

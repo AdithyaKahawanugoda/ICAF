@@ -151,9 +151,9 @@ const WorkshopConductor = (props) => {
     return (
         <div>
         <ListGroup>
-        <ListGroup.Item className="custom-cusprof-pp">
+        <ListGroup.Item className="workshop-workshop-pp">
           <Image
-            className="custom-cusprof-pp-img "
+            className="workshop-workshop-pp-img"
             cloudName="grid1234"
             publicId={props.workshopPP}
           />
@@ -173,7 +173,7 @@ const WorkshopConductor = (props) => {
         </ListGroup.Item>
       </ListGroup>
       <Modal
-        title="Customer Profile Update"
+        title="Workshop Profile Update"
         visible={visible1}
         onOk={handleOk1}
         confirmLoading={confirmLoading}
@@ -224,7 +224,7 @@ const WorkshopConductor = (props) => {
         </Form.Group>
       </Modal>
       <Modal
-        title="Profile Delete"
+        title="Workshop Profile Delete"
         visible={visible3}
         onOk={handleOk3}
         confirmLoading={confirmLoading}
