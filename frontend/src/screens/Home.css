@@ -1,0 +1,53 @@
+.home{
+  font-family: 'Times New Roman', Times, serif;
+  height: fit-content;
+}
+
+.homeCover{
+  height: fit-content;
+}
+
+
+.timeline {
+  width: 50vw;
+  height: fit-content;
+  display: block;
+  margin: auto;
+  /* background-color: darkgray; */
+  margin-bottom: 5vh;
+}
+
+.timeline h1{
+  text-align: center;
+}
+
+
+.galleryContainor {
+  height: fit-content;
+  width: 70vw;
+  display: block;
+  margin: auto;
+}
+
+
+.countDown {
+  width: 32vw;
+  height: 9vw;
+  display: block;
+  margin: auto;
+  background-color: rgb(233, 227, 227);
+  margin-bottom: 1vw;
+}
+
+.ConfData {
+  background-color: black; 
+  padding: 8vh;
+  height: fit-content;
+  width: fit-content;
+}
+
+.ConfData h4{
+  color: aliceblue;
+}
+
+

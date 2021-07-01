@@ -1,0 +1,26 @@
+.sideBarCard {
+  height: fit-content;
+  padding: 1vw;
+  text-indent: 2vh;
+  
+}
+
+.sdbar h3 {
+  margin-top: 4vw;
+  text-align: center;
+}
+.sdbar {
+ 
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+  background-color: rgb(253, 245, 245);
+  width: 15vw;
+  margin: auto;
+  display: block;
+}
+
+.pendingGallery{
+  height: 20vw;
+  margin: auto;
+  display: block;
+  width: fit-content;
+}
