@@ -12,6 +12,7 @@ const EditorTimeline = () => {
   const [selectedID, setSelectedID] = useState("");
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const [position, setPosition] = useState(0);
 
   const showModal = () => {
     setVisible(true);
@@ -27,7 +28,7 @@ const EditorTimeline = () => {
       await axios
         .get("http://localhost:6500/grid/api/guest/getTimeline")
         .then((res) => {
-          setTimelineData(res.data.allNews);
+          setTimelineData(res.data.timelines);
         })
         .catch((err) => {
           alert("Error! " + err);
@@ -42,7 +43,7 @@ const EditorTimeline = () => {
         Authorization: `Bearer ${localStorage.getItem("authToken")}`,
       },
     };
-    let postObject = { title, description };
+    let postObject = { title, description, position };
     await axios
       .post(
         "http://localhost:6500/grid/api/editorpvt/addNews",
@@ -195,6 +196,19 @@ const EditorTimeline = () => {
                       value={description}
                       onChange={(e) => {
                         setDescription(e.target.value);
+                      }}
+                    />
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col} md={12}>
+                    <Form.Label>Position</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Timeline event position"
+                      value={position}
+                      onChange={(e) => {
+                        setPosition(e.target.value);
                       }}
                     />
                   </Form.Group>

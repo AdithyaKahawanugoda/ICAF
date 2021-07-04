@@ -161,13 +161,12 @@ const EditorConference = (props) => {
 
     await axios
       .put(
-        "http://localhost:6500/grid/api/editorpvt/addSpeaker",
+        "http://localhost:6500/grid/api/editorpvt/requestSpeakerRemove",
         postObject,
         config
       )
       .then((res) => {
-        alert("New speaker added! -Submited to admin");
-        ctx.onConfChange(res.data.updatedConference);
+        alert("Speaker removal reques submited to admin");
       })
       .catch((err) => {
         alert("ERROR! " + err);
@@ -542,6 +541,13 @@ const EditorConference = (props) => {
 
                     <Button variant="warning" type="submit">
                       Update
+                    </Button>
+                    <Button
+                      style={{ marginLeft: "1vh" }}
+                      variant="danger"
+                      onClick={requestRemoveSpeaker}
+                    >
+                      Request to Delete
                     </Button>
                   </Form>
                 </div>

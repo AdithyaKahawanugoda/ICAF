@@ -1,0 +1,38 @@
+.sideBarCard {
+  height: fit-content;
+  padding: 1vw;
+  text-indent: 2vh;  
+}
+
+.sdbar h3 {
+  margin-top: 4vw;
+  text-align: center;
+}
+.sdbar {
+  background-color: rgb(253, 245, 245);
+  width: 15vw;
+  margin: auto;
+  display: block;
+  box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.pendingGallery{
+  height: 20vw;
+  margin: auto;
+  display: block;
+  width: fit-content;
+}
+
+.sideBarItem{
+  border: 0.3vh solid rgb(218, 218, 221);
+  padding: 1vh;
+  margin: 2vh;
+  border-radius: 0.5vh;
+}
+
+.galleryButton{
+  padding-top: 2vh;
+  margin: auto;
+  display: block;
+  width: fit-content;
+}

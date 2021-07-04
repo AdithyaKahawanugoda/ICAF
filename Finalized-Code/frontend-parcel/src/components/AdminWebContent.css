@@ -1,0 +1,27 @@
+.galleryImg {
+    width: 15vw;
+    height: 15vw;
+    margin: 1vw;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+    float: left;
+    padding: 0;
+  }
+  
+  .custom-cusprof-pp-img-adminglry{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 0;
+  }
+  
+  .galleryCard{
+      width: 20vw;
+      height: 25vw;
+      float: left;
+      box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+      display: block;
+      margin: 1vw;
+      padding-left: 1.5vw;
+      padding-top: 0;
+  }
+

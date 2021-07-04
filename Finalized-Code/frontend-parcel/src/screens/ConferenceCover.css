@@ -1,0 +1,53 @@
+.lkconference h1 {
+  text-align: center;
+  color: black;
+}
+
+.lkconference {
+  color: black;
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  margin-bottom: 1vh;
+}
+
+.lkConfNotAwailable {
+  text-align: center;
+  height: 20vh;
+  width: 100%;
+  background-color: black;
+  margin-bottom: 1vh;
+  color: black;
+}
+
+.lkConfNotAwailable h1 {
+  text-align: center;
+  color: darkgrey;
+}
+
+.lkimg-content {
+  height: 60vh;
+  width: 100%;
+}
+
+.lkcustome-slider {
+  color: black;
+  width: 30%;
+}
+
+.lkcontainer {
+  position: relative;
+  text-align: center;
+  color: black;
+}
+
+.lktext-block > h1 {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  padding-top: 12vw;
+  padding-left: 20px;
+  font-size: 50px;
+}

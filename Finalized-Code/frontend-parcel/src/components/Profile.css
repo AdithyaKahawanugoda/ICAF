@@ -1,0 +1,154 @@
+
+.lkprofile{
+    margin:50px;
+    margin-bottom: 100px;
+}
+
+.lkprofile > div > h2{
+    text-align: center;
+}
+
+.lkprofile-keynote-grid{
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+.lkprofile-keynote{
+    box-shadow: 2px 6px 18px -2px black;
+    padding: 20px;
+    margin-top: 20px;
+    transition: transform 200ms;
+}
+
+.lkprofile-keynote:hover{
+    cursor: pointer;
+    transform: scale(1.02);
+}
+
+.lkprofile-keynote > div >h2{
+    color: black;
+}
+
+.lkprofile-keynote-inside{
+    display: flex;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.lkprofile-keynote-inside-left > img{
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    padding: 0;
+    clip-path: circle();
+    
+}
+
+.lkprofile-keynote-inside-left > img:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+
+.lkprofile-keynote-inside-right{
+    margin-left: 20px;
+}
+
+.lkprofile-keynote-inside-right > p,
+.lkprofile-keynote-inside-right > h4{
+    color: black;
+}
+
+.lkprofile-keynote-inside-right > p{
+    width: 80%;
+}
+
+.lkprofile > div > h2{
+    color: black;
+}
+
+.lkprofile-guest{
+    border-radius: 20px;
+    box-shadow: 0px 6px 18px 1px black;
+    padding: 20px;
+    margin-top: 20px;
+    margin-right: 10px;
+    transition: transform 200ms;
+    background-color: rgb(238, 238, 238);
+}
+
+.lkprofile-guest:hover{
+    cursor: pointer;
+    transform: scale(1.03);
+}
+
+.lkcustom-cusprof-pp-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 0;
+    clip-path: circle();
+  }
+
+.lkprofile-guest-grid{
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+
+/* .profile-guest-insider{
+    display: grid;
+    align-items: center;
+} */
+
+.lkprofile-guest-inside-left{
+    text-align: center;
+}
+
+.lkprofile-guest-inside-left > img{
+    border-radius: 100%;
+    object-fit: contain;
+
+    width:150px;
+    height:150px;
+}
+
+
+.lkprofile-guest-inside-right > h4{
+    text-align: center;
+}
+
+.lkprofile-guest-inside-right > p,
+.lkprofile-guest-inside-right > h4{
+    color: black;
+}
+
+.lkprofile-guest-inside-right > p{
+    width: 100%;
+}
+
+.lkprofile-guest-inside-right{
+    margin-left: 10px;
+}
+
+.lkprofile-guest-inside-right_inside{
+    margin-top: 30px;
+}
+
+
+@media (max-width:800px){
+    .lkprofile-guest-grid{
+        display: grid;
+        grid-template-columns:none;
+    }
+
+    .lkprofile-keynote-inside{
+        display: grid;
+    }
+
+    .lkprofile-keynote-inside-right > h4,
+    .lkprofile-keynote-inside-left{
+        text-align: center;
+    }
+
+}

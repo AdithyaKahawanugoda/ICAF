@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { Row } from "react-bootstrap";
 
 import EditorContext from "../context/editor-context";
 
