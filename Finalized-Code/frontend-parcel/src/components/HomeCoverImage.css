@@ -1,0 +1,13 @@
+.custome-img-slider-content {
+  /* background-image: url("https://i.ibb.co/wMnSSVc/photo-1531297484001-80022131f5a1.jpg"); */
+  background-image: url("https://i.ibb.co/ZHVdHNM/technology-abstract-823686896-5df7a7eeb9dc7.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  height: 80vh;
+  padding-top: 60vh;
+}
+
+.custome-slider-content {
+  color: white;
+  width: 30%;
+}

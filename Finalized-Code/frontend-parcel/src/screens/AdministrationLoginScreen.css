@@ -1,0 +1,14 @@
+.admin-login-form-body {
+  width: 40vw;
+  height: fit-content;
+  padding: 2vh;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  margin: auto;
+  margin-bottom: 3vh;
+  padding-top: 1.5vh;
+  font-size: large;
+  background-image: url("https://i.ibb.co/994m45n/background-login-f94bf29cb8e076b24630a06a9e6a2a7fd3e1eb32b523c467daaec0399dab18b9.png");
+  background-size: auto;
+  background-repeat: no-repeat;
+}

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Form, Button, Col } from "react-bootstrap";
+import { Form, Button, Col, Spinner } from "react-bootstrap";
 import axios from "axios";
 import FileBase from "react-file-base64";
 import "./RegistrationForm.css";
@@ -22,15 +22,19 @@ const RegistrationForm = () => {
   const [fileEnc, setFileEnc] = useState("");
   const [error, setError] = useState("");
   const [section, setSection] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
 
   const registrationHandler = (e) => {
     e.preventDefault();
+    setIsLoading(true);
+
     if (password !== confirmpassword) {
       setPassword("");
       setConfirmPassword("");
       setTimeout(() => {
         setError("");
       }, 5000);
+      setIsLoading(false);
       return setError("Passwords do not match");
     } else if (
       username.trim().length === 0 ||
@@ -40,17 +44,20 @@ const RegistrationForm = () => {
       setTimeout(() => {
         setError("");
       }, 5000);
+      setIsLoading(false);
       return setError("Please fill all the fields");
     } else if (password.trim().length < 6) {
       setTimeout(() => {
         setError("");
       }, 5000);
+      setIsLoading(false);
       return setError("Please use a password with at least 6 characters");
     } else if (!role === "attendee") {
       if (topic.trim().length === 0 || ppEnc === "" || fileEnc === "") {
         setTimeout(() => {
           setError("");
         }, 5000);
+        setIsLoading(false);
         return setError(
           "Please fill all the fields and select files to upload"
         );
@@ -83,12 +90,14 @@ const RegistrationForm = () => {
     await axios
       .post("http://localhost:6500/grid/api/auth/reg-researcher", postObject)
       .then((res) => {
+        setIsLoading(false);
         alert("Researcher registration Success");
         localStorage.setItem("authToken", res.data.token);
         localStorage.setItem("userRole", "researcher");
         window.location = `/profile/researcher`;
       })
       .catch((err) => {
+        setIsLoading(false);
         alert("ERROR! " + err);
       });
   };
@@ -109,12 +118,14 @@ const RegistrationForm = () => {
         postObject
       )
       .then((res) => {
+        setIsLoading(false);
         alert("Workshop Conductor registration Success");
         localStorage.setItem("authToken", res.data.token);
         localStorage.setItem("userRole", "workshop conductor");
         window.location = `/profile/wconductor`;
       })
       .catch((err) => {
+        setIsLoading(false);
         alert("ERROR! " + err);
       });
   };
@@ -133,6 +144,7 @@ const RegistrationForm = () => {
   };
 
   const registerAttendee = async (cID) => {
+    setIsLoading(true);
     let postObject = {
       username,
       email,
@@ -144,12 +156,14 @@ const RegistrationForm = () => {
     await axios
       .post("http://localhost:6500/grid/api/auth/reg-attendee", postObject)
       .then((res) => {
+        setIsLoading(false);
         alert("Attendee registration Success");
         localStorage.setItem("authToken", res.data.token);
         localStorage.setItem("userRole", "attendee");
         window.location = `/profile/attendee`;
       })
       .catch((err) => {
+        setIsLoading(false);
         alert("ERROR! " + err);
       });
   };
@@ -157,6 +171,7 @@ const RegistrationForm = () => {
   return (
     <div className="reg-form-body">
       <p className="reg-top-title">Registration</p>
+
       <Form onSubmit={registrationHandler}>
         {error && <span className="error-message">{error}</span>}
         {section === 1 && (
@@ -171,10 +186,12 @@ const RegistrationForm = () => {
                   required={true}
                   label="Attendee"
                   onClick={() => {
+                    setIsLoading(true);
                     setRole("attendee");
                     ctx.onImgChange("attendee");
                     setTimeout(() => {
                       setSection(2);
+                      setIsLoading(false);
                     }, 1000);
                   }}
                   id="formHorizontalRadios1"
@@ -185,10 +202,12 @@ const RegistrationForm = () => {
                   required={true}
                   label="Researcher"
                   onClick={() => {
+                    setIsLoading(true);
                     setRole("researcher");
                     ctx.onImgChange("researcher");
                     setTimeout(() => {
                       setSection(2);
+                      setIsLoading(false);
                     }, 1000);
                   }}
                   id="formHorizontalRadios2"
@@ -199,10 +218,12 @@ const RegistrationForm = () => {
                   required={true}
                   label="Workshop-Conductor"
                   onClick={() => {
+                    setIsLoading(true);
                     setRole("workshop conductor");
                     ctx.onImgChange("workshop conductor");
                     setTimeout(() => {
                       setSection(2);
+                      setIsLoading(false);
                     }, 1000);
                   }}
                   id="formHorizontalRadios3"
@@ -210,6 +231,7 @@ const RegistrationForm = () => {
                 />
               </Col>
             </Form.Group>
+            {isLoading && <Spinner animation="border" />}
           </div>
         )}
         {section === 2 && (
@@ -425,7 +447,18 @@ const RegistrationForm = () => {
                 </Form.Row>
               </div>
             )}
-            {role !== "attendee" && <Button type="submit">Submit</Button>}
+            {role !== "attendee" && (
+              <div>
+                <div>
+                  <Button type="submit">Submit</Button>
+                </div>
+                {isLoading && (
+                  <div style={{ marginTop: "2vh" }}>
+                    <Spinner animation="border" />
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         )}
         {section === 3 && (
@@ -477,6 +510,11 @@ const RegistrationForm = () => {
               </Form.Group>
             </Form.Row>
             <Button type="submit">Submit</Button>
+            {isLoading && (
+              <div style={{ marginTop: "2vh" }}>
+                <Spinner animation="border" />
+              </div>
+            )}
           </div>
         )}
       </Form>

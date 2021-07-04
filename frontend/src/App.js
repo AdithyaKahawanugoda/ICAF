@@ -10,6 +10,7 @@ import AdministrationLogin from "./screens/AdministrationLoginScreen";
 import AdminDashboard from "./screens/AdminDashboard";
 import EditorDashboard from "./screens/EditorDashboard";
 import ReviewerDashboard from "./screens/ReviewerDashboard";
+import AttendeeProfile from "./screens/AttendeeScreen";
 
 const App = () => {
   return (
@@ -30,6 +31,9 @@ const App = () => {
         </Switch>
         <Switch>
           <Route exact path="/profile/reviewer" component={ReviewerDashboard} />
+        </Switch>
+        <Switch>
+          <Route exact path="/profile/attendee" component={AttendeeProfile} />
         </Switch>
       </main>
       <Footer />
